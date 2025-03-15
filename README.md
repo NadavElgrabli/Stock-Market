@@ -109,6 +109,5 @@ You can test and interact with these endpoints through the [Swagger UI](http://1
 ### Stock price updates based on transactions:
 
 - In the current system, whenever a trade is completed, the stock price updates to match the transaction price.
-- However, this approach can be **exploited**—a trader could intentionally buy a stock at a high price and then sell it at a significantly lower price to crash the stock’s value.
-- In real-world markets, stock prices are influenced by **volume-weighted averages**, order book depth, and other factors, making them less susceptible to manipulation by a single trader.
-- A more realistic approach would be to calculate the stock price based on the **moving average of recent trades** or **supply and demand** instead of just the last transaction.
+- However, this approach can be **exploited**—a trader could intentionally buy a stock at a high price and then sell it at a significantly lower price to crash the stock’s value. This feature can be canceled to prevent such manipulation by commenting out lines: 119, 158, 244, 286 in `backend/main.py`.
+- Future improvements could refine stock price updates by incorporating trade volume, historical trends, and market activity for a more realistic approach.
