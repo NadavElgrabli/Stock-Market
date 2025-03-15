@@ -7,7 +7,7 @@ class Stock(BaseModel):
     name: str
     current_price: float
     amount: int
-    open_orders: List['Order'] = []  # Active buy/sell orders
+    open_orders: List['Order'] = []  
     transactions: List['Transaction'] = []  # Last 10 completed transactions
 
 
@@ -37,11 +37,11 @@ class Trader(BaseModel):
     id: str
     name: str
     money: float
-    reserved_funds: float = 0.0  # track funds reserved for buy orders
+    reserved_funds: float = 0.0  
     holdings: Dict[str, int] = {}  # Mapping stock_id to quantity of shares owned
     buy_orders: Dict[str, 'Order'] = {}  # Mapping stock_id to buy orders
     sell_orders: Dict[str, 'Order'] = {}  # Mapping stock_id to sell orders
-    transactions: List['Transaction'] = []  # List of transactions
+    transactions: List['Transaction'] = []  
 
 
 

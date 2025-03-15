@@ -106,7 +106,7 @@ def place_buy_order(trader_id: str, stock_id: str, price: float, amount: int):
                 if seller.holdings[stock_id] == 0:
                     del seller.holdings[stock_id]
 
-                # Remove the completed sell order from stock's open orders #TODO check if works
+                # Remove the completed sell order from stock's open orders 
                 if sell_order in stock.open_orders:
                     stock.open_orders.remove(sell_order)
 
@@ -127,7 +127,7 @@ def place_buy_order(trader_id: str, stock_id: str, price: float, amount: int):
                 if sell_order.amount - amount == 0:
                     # Remove the sell order since it's fully executed
                     seller.sell_orders.pop(stock_id, None)
-                    # Remove the sell order from stock's open orders #TODO check if works
+                    # Remove the sell order from stock's open orders 
                     if sell_order in stock.open_orders:
                         stock.open_orders.remove(sell_order)
                 
@@ -149,7 +149,7 @@ def place_buy_order(trader_id: str, stock_id: str, price: float, amount: int):
                 amount = 0  # Order fully filled
                 trader.buy_orders.pop(stock_id, None)
 
-                # Remove the buy order from stock's open orders #TODO check if works
+                # Remove the buy order from stock's open orders 
                 if buy_order in stock.open_orders:
                     stock.open_orders.remove(buy_order)
 
@@ -261,7 +261,7 @@ def place_sell_order(trader_id: str, stock_id: str, price: float, amount: int):
                 if buy_order.amount - amount == 0:
                     # Remove the buy order since it's fully executed
                     buyer.buy_orders.pop(stock_id, None)   
-                    # Remove the buy order from stock's open orders #TODO check if works
+                    # Remove the buy order from stock's open orders
                     if buy_order in stock.open_orders:
                         stock.open_orders.remove(buy_order)
 
@@ -275,7 +275,7 @@ def place_sell_order(trader_id: str, stock_id: str, price: float, amount: int):
                 amount = 0  # Order fully filled
                 trader.sell_orders.pop(stock_id, None)
 
-                # Remove the sell order from stock's open orders #TODO check if works
+                # Remove the sell order from stock's open orders 
                 if sell_order in stock.open_orders:
                     stock.open_orders.remove(sell_order)
 
@@ -291,7 +291,7 @@ def place_sell_order(trader_id: str, stock_id: str, price: float, amount: int):
             sell_order.amount = amount       
             trader.sell_orders[stock_id] = sell_order
 
-            # Add the sell order to the stock's open orders #TODO: Remove from stocks open order if deal is made
+            # Add the sell order to the stock's open orders
             stock.open_orders.append(sell_order)
     else:
         # No matching buy orders, place the sell order for future matching and add the sell order to the stock's open orders

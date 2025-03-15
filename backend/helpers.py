@@ -66,10 +66,6 @@ def fetch_and_validate_sell_order(trader_id: str, stock_id: str, price: float, a
     return trader, stock
 
 
-
-
-
-
 def reserve_funds(trader: Trader, price: float, amount: int):
     """Reserves the funds for the buy order."""
     total_cost = price * amount

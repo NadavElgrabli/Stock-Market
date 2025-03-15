@@ -78,4 +78,37 @@ You can test and interact with these endpoints through the [Swagger UI](http://1
 - The system uses an in-memory database to store stock and trader information.
 - The stock price is updated periodically based on external market events and trading activities.
 - A trader cannot have both a buy and sell order for the same stock at the same time.
-- Initially, all stocks are owned by the stock exchange, so sell orders are created at the stock price defined in the JSON file.
+- Initially, all stocks are owned by the stock market itself, which acts as a trader. The stock market lists all stocks for sale at the prices defined in the JSON file. These sell orders automatically update whenever stock prices change due to external market events. Buyers initially must purchase their first stocks from the stock market itself.
+- Random market events occur every minute to simulate real-world factors such as financial reports, news articles, or product launches. These events affect stock prices dynamically. The algorithm behind this works as follows:
+  - Every minute, a market event is triggered that either increases or decreases stock prices.
+  - A **market trend** is randomly chosen to be either positive or negative (`+1` for good news, `-1` for bad news).
+  - An **impact factor** is randomly determined between **1% and 5%** to define the magnitude of change.
+  - The stock price is then adjusted based on these factors, creating a simulated market that reacts to external forces in an unpredictable way.
+- When a trader places a **buy order**, the system searches for all available **sell orders** for the requested stock that match the buyer's price or are listed for a lower price. The trader automatically purchases from the seller offering the best price (i.e., the lowest sell price available).
+- Similarly, when a trader places a **sell order**, the system looks for all **buy orders** where traders are willing to pay the listed price or higher. The stock is then sold to the buyer willing to pay the highest price.
+- This order-matching mechanism ensures that trades are executed efficiently, following a **best price priority** model:
+  - Buy orders are matched to the **cheapest** available sell order.
+  - Sell orders are matched to the **highest** available buy order.
+- This is implemented in the system using sorting mechanisms:
+  - **Buy orders** are sorted from highest to lowest price to ensure that sellers get the best possible deal.
+  - **Sell orders** are sorted from lowest to highest price to ensure that buyers purchase at the most favorable price.
+- **Reserved Funds Mechanism**:
+  - When a trader places a buy order, the required funds are **reserved** from their account to ensure they have enough money to complete the purchase.
+  - If the buy order is successfully executed, the reserved funds are used to complete the transaction.
+  - If the order is canceled or unmatched, the reserved funds are released back to the trader’s balance.
+  - This prevents traders from placing buy orders they cannot afford and ensures smooth trading operations.
+
+## Points to Consider
+
+### Using an in-memory database instead of a real database:
+
+- The current implementation stores stock and trader data in memory, meaning all data is lost when the system shuts down.
+- A proper **relational database (PostgreSQL, MySQL)** or **NoSQL database (MongoDB, Redis)** would have allowed for persistent storage, better scalability, and the ability to analyze historical trading data.
+- A real database would also help prevent data corruption and enable concurrent user access more efficiently.
+
+### Stock price updates based on transactions:
+
+- In the current system, whenever a trade is completed, the stock price updates to match the transaction price.
+- However, this approach can be **exploited**—a trader could intentionally buy a stock at a high price and then sell it at a significantly lower price to crash the stock’s value.
+- In real-world markets, stock prices are influenced by **volume-weighted averages**, order book depth, and other factors, making them less susceptible to manipulation by a single trader.
+- A more realistic approach would be to calculate the stock price based on the **moving average of recent trades** or **supply and demand** instead of just the last transaction.
